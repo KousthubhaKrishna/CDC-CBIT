@@ -3,6 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+// Database Connection
+require("./models/Conn");
+
 // Initialise application 
 const app = express();
 app.use(express.urlencoded({
