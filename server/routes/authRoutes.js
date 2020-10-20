@@ -4,14 +4,14 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const router = express.Router();
 const { PERMISSIONS, authUser } = require('../middleware/Auth');
-const AuthModel = require('../models/AuthModel');
+const Auth = require('../models/Auth');
 
 // Login
 router.post('/login', async (req, res) => {
     const credentials = req.body;
     try {
         // Check user_email
-        const account = await AuthModel.findOne({ "user_email": credentials.user_email });
+        const account = await Auth.findOne({ "user_email": credentials.user_email });
         if (account == null) return res.status(401).json({ message: "Invalid User Id" });
         
         // Validate Passoword
@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
         const maxAge = 3 * 24 * 60 * 60
         const accessToken = jwt.sign(account.toJSON(), process.env.ACCESS_TOKEN_SECRET, { expiresIn: maxAge });
         res.cookie('jwt', accessToken, { maxAge: maxAge * 1000 });
-        res.send({ accessToken: accessToken });
+        res.status(200).send({ message : "Login Success" });
 
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -38,7 +38,7 @@ router.post("/addStudent", authUser(PERMISSIONS.MED), async (req, res) => {
             password: req.body.password,
             role: 'student'
         }
-        const studentObj = new AuthModel(newStudent);
+        const studentObj = new Auth(newStudent);
         const savedStudent = await studentObj.save();
         res.status(201).json(savedStudent);
     } catch (err) {
@@ -61,7 +61,7 @@ router.post("/addCoordinator", authUser(PERMISSIONS.HIGH), async (req, res) => {
             password: req.body.password,
             role: 'coordinator'
         }
-        var coordinatorObj = new AuthModel(newCoordinator);
+        var coordinatorObj = new Auth(newCoordinator);
         const savedCoordinator = await coordinatorObj.save();
         res.status(201).json(savedCoordinator);
     } catch (err) {
@@ -84,7 +84,7 @@ router.post("/addAdmin", authUser(PERMISSIONS.HIGH), async (req, res) => {
             password: req.body.password,
             role: 'admin'
         }
-        var adminObj = new AuthModel(newAdmin);
+        var adminObj = new Auth(newAdmin);
         const savedAdmin = await adminObj.save();
         res.status(201).json(savedAdmin);
     } catch (err) {

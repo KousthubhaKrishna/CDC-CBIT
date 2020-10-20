@@ -24,4 +24,4 @@ Auth.pre('save',async function(next){
     next();
 })
 
-module.exports = mongoose.model("auths", Auth);
+module.exports = mongoose.model("auth", Auth);
