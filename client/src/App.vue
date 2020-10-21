@@ -1,26 +1,22 @@
 <template>
   <v-app>
-    <TitleBar />
+    <TitleBar/>
     <v-main>
+      <NavBar/>
       <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import TitleBar from "./components/TitleBar";
-// import NavBar from "./components/NavBar";
+import TitleBar from "./components/header/TitleBar";
+import NavBar from "./components/header/NavBar";
 
 export default {
   name: "App",
-
   components: {
-    TitleBar
-    // NavBar
+    TitleBar,
+    NavBar
   },
-
-  data: () => ({
-    //
-  })
 };
 </script>
