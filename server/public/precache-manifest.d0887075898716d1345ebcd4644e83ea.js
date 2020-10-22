@@ -1,27 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6d35752edca49e2b4a46",
-    "url": "/css/chunk-vendors.a8c06673.css"
+    "revision": "d4b6c7be86ce59a00e09",
+    "url": "/css/chunk-vendors.621d3c33.css"
   },
   {
     "revision": "f3bab4c08d3c9e13a3302328ef1111cb",
     "url": "/img/about.f3bab4c0.jpg"
   },
   {
+    "revision": "3b3b7f3acab67e331e0367462811a3dd",
+    "url": "/img/back.3b3b7f3a.png"
+  },
+  {
     "revision": "6fc482ee46e9d6c38053573d6ecb6625",
     "url": "/img/cbit_logo.6fc482ee.png"
   },
   {
-    "revision": "8507760e956f930b3bc414bd7d73d4d7",
+    "revision": "b7d728a900952913b387a3a7ecf11082",
     "url": "/index.html"
   },
   {
-    "revision": "e2f2bd8ec12b3946353c",
-    "url": "/js/app.5583d3dd.js"
+    "revision": "33d26337ebce1c4d2c9c",
+    "url": "/js/app.39706879.js"
   },
   {
-    "revision": "6d35752edca49e2b4a46",
-    "url": "/js/chunk-vendors.16ce6006.js"
+    "revision": "d4b6c7be86ce59a00e09",
+    "url": "/js/chunk-vendors.208714a1.js"
   },
   {
     "revision": "8eff00fb23e5046e8587fb699e79e093",
