@@ -1,11 +1,13 @@
 <template>
   <v-row class="fill-height" align="center" justify="center">
-    <v-card width="950">
+    <v-card width="950" :loading="loading">
       <v-row>
         <v-col>
           <v-img class="pa-10" contain src="@/assets/back.png" width="500">
-          <p class="primary--text" > CBIT Placements </p>
-          <h2 class="green--text darken-4" > Go to place for placements for students </h2>
+            <p class="primary--text">CBIT Placements</p>
+            <h2 class="green--text darken-4">
+              Go to place for placements for students
+            </h2>
           </v-img>
         </v-col>
         <v-col class="pa-10" align="left">
@@ -35,7 +37,10 @@
               Login
             </v-btn>
           </form>
-          <p class="caption"> *Please contact your class or branch placement co-ordinater for login credentials. </p>
+          <p class="caption">
+            *Please contact your class or branch placement co-ordinater for
+            login credentials.
+          </p>
         </v-col>
       </v-row>
     </v-card>
@@ -61,7 +66,8 @@ export default {
           const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || "Invalid e-mail.";
         }
-      }
+      },
+      loading: false,
     };
   },
   created: function() {
@@ -73,12 +79,15 @@ export default {
         this.$refs["user_email"].validate(true) &&
         this.$refs["password"].validate(true);
       if (isFormValid) {
+        this.loading = true;
         axios
-          .post("http://localhost:3080/login", this.loginProps)
+          .post("/api/login/", this.loginProps)
           .then(res => {
-            this.$router.push({ name: "Home" });
+            this.loading = false;
+            this.$router.push({ name: "Dashboard" });
           })
           .catch(err => {
+            this.loading = false;
             this.error = err.response.data.message;
           });
       }
