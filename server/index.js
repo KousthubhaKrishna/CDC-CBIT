@@ -37,6 +37,21 @@ app.get("/api", (req, res) => {
 // Auth Routes
 app.use("/api/", require("./routes/authRoutes"));
 
+//Company Routes
+app.use("/api/", require("./routes/companyRoutes"));
+
+//Placements Routes
+app.use("/api/", require("./routes/placementRoutes"));
+
+//Interview Experience Routes
+app.use("/api/", require("./routes/interviewExperienceRoutes"));
+
+//Students Routes
+app.use("/api/", require("./routes/studentRoutes"));
+
+//Coordinators Routes
+app.use("/api/", require("./routes/coordinatorRoutes"));
+
 // Handle Production
 if (process.env.NODE_ENV == "production") {
     // Static folder
