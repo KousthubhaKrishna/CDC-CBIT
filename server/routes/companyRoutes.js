@@ -5,9 +5,17 @@ const Company = require("../models/Company");
 
 
 // get company list
-router.get("/company", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
-        const companies = await Company.find();
+
+        const queryObj = {...req.query};
+
+        let queryStr = JSON.stringify(queryObj);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+
+        const query = Company.find(JSON.parse(queryStr));
+
+        const companies = await query;
         res.status(200).json(companies);
     } catch (err) {
         res.json({ message: err.message });
@@ -16,7 +24,7 @@ router.get("/company", async (req, res) => {
 
 
 // get company based on ID
-router.get('/company/:companyId',async ( req, res) => {
+router.get('/:companyId',async ( req, res) => {
     console.log(req.params.companyId);
     try{
         const company = await Company.findOne({company_id : req.params.companyId});
@@ -31,7 +39,7 @@ router.get('/company/:companyId',async ( req, res) => {
 });
 
 // Add Company Account
-router.post("/addCompany", authUser(PERMISSIONS.MED), async (req, res) => {
+router.post("/", authUser(PERMISSIONS.MED), async (req, res) => {
     console.log("Adding New Company");
     try {
 
@@ -51,7 +59,7 @@ router.post("/addCompany", authUser(PERMISSIONS.MED), async (req, res) => {
 
 
 // delete company 
-router.delete('/delete_company/:companyId', authUser(PERMISSIONS.MED), async ( req, res) => {
+router.delete('/:companyId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         const company = await Company.deleteOne({company_id : req.params.companyId});
         res.json(company);
@@ -62,7 +70,7 @@ router.delete('/delete_company/:companyId', authUser(PERMISSIONS.MED), async ( r
 });
 
 // update company
-router.patch('/update_company/:companyId', authUser(PERMISSIONS.MED), async ( req, res) => {
+router.patch('/:companyId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         const updatedCompany = await Company.updateOne(
             {company_id : req.params.companyId},

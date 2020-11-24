@@ -8,11 +8,32 @@ const Placements = require("../models/Placements");
 const Students = require("../models/Students");
 
 // get placements
-router.get("/placements", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
-        const placements = await Placements.find();
+
+        const queryObj = {...req.query};
+
+        let queryStr = JSON.stringify(queryObj);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+
+        const query = Placements.find(JSON.parse(queryStr));
+
+        const placements = await query;
         res.status(200).json(placements);
     } catch (err) {
+        res.json({ message: err.message });
+    }
+});
+
+// get list of placements based on placement Id
+router.get('/:plcId',async ( req, res) => {
+    try{
+        const pl = await Placements.findById(req.params.plcId);
+        if(pl == null)
+            res.status(401).json({ message: "Invalid Id" });
+        res.status(200).json(pl);
+    }
+    catch(err){
         res.json({ message: err.message });
     }
 });
@@ -31,21 +52,9 @@ router.get('/placements/:companyName',async ( req, res) => {
     }
 });
 
-// get list of placements based on placement Id
-router.get('/placements/:plcId',async ( req, res) => {
-    try{
-        const pl = await Placements.findById(req.params.plcId);
-        if(pl == null)
-            res.status(401).json({ message: "Invalid Id" });
-        res.status(200).json(pl);
-    }
-    catch(err){
-        res.json({ message: err.message });
-    }
-});
 
 // Add placements
-router.post("/addPlacement/:companyId", authUser(PERMISSIONS.MED), async (req, res) => {
+router.post("/:companyId", authUser(PERMISSIONS.MED), async (req, res) => {
     try {
         const plObj = new Placements( {
             company_id: req.params.companyId,
@@ -67,7 +76,7 @@ router.post("/addPlacement/:companyId", authUser(PERMISSIONS.MED), async (req, r
 
 
 // delete placements
-router.delete('/delete_placement/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
+router.delete('/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         const pl = await Placements.deleteOne({_id : req.params.placementId});
         res.json(pl);
@@ -79,7 +88,7 @@ router.delete('/delete_placement/:placementId', authUser(PERMISSIONS.MED), async
 
 
 // update placement
-router.patch('/update_placement/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
+router.patch('/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         
         const updatedPl = await Placements.updateOne(
@@ -103,8 +112,7 @@ router.patch('/update_placement/:placementId', authUser(PERMISSIONS.MED), async 
 });
 
 //Add Placed Students
-
-router.patch('/add_placedStudents/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
+router.patch('/addPlacedStudents/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         const placed = req.body.placed_students;
         const updatedPl = await Placements.updateOne(
@@ -114,37 +122,12 @@ router.patch('/add_placedStudents/:placementId', authUser(PERMISSIONS.MED), asyn
                 }    
             });
         
-         placed.forEach(async element => {
-
-            console.log(element);
-            console.log(".............");
-            const updatedst = await Students.updateOne( //not getting updated
-                {basic_info:{roll_number : element}},
-                {$set: {
-                    is_placed: true,
-                    }    
-                });  
-            console.log(updatedst);       
-        });
-        res.json(updatedPl);
-    }
-    catch(err){
-        res.json({ message: err.message });
-    }
-});
-
-// verify students
-
-router.patch('/verifyStudents/:stId', authUser(PERMISSIONS.MED), async ( req, res) => {
-    try{
-        
-        const verifiedSt = await Students.updateOne(
-            {_id : req.params.stId},
+         const updatedst = await Students.updateMany( 
             {$set: {
-                is_verified: true,
-                }    
-            });
-            res.status(200).redirect('back');
+                is_placed: true,}    
+            }).where('basic_info.roll_number').in(placed);  
+            console.log(updatedst);       
+        res.json(updatedPl);
     }
     catch(err){
         res.json({ message: err.message });

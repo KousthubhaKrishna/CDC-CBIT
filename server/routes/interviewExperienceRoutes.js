@@ -7,15 +7,28 @@ const { PERMISSIONS, authUser } = require("../middleware/Auth");
  
 
 // get interview experiences
-router.get("/interviewExp", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
-        const experiences = await InterviewExperience.find();
+        const queryObj = {...req.query};
+
+        const query = InterviewExperience.find(queryObj);
+
+        const experiences = await query;
         res.status(200).json(experiences);
     } catch (err) {
         res.json({ message: err.message });
     }
 });
 
+// get InterviewExperience based on Id
+router.get("/:Id", async (req, res) => {
+    try {
+        const experience = await InterviewExperience.findById(req.params.Id);
+        res.status(200).json(experience);
+    } catch (err) {
+        res.json({ message: err.message });
+    }
+});
 
 // get list of interview experiences based on company name
 router.get('/exp/:companyName',async ( req, res) => {
@@ -31,7 +44,7 @@ router.get('/exp/:companyName',async ( req, res) => {
 });
 
 // Add interview experience
-router.post("/addInterviewExperience", authUser(PERMISSIONS.LOW), async (req, res) => {
+router.post("/", authUser(PERMISSIONS.LOW), async (req, res) => {
     try {
         const token = req.cookies.jwt;
         var decoded = jwt_decode(token);
@@ -52,7 +65,7 @@ router.post("/addInterviewExperience", authUser(PERMISSIONS.LOW), async (req, re
 
 
 // delete experience 
-router.delete('/delete_exp/:expId', authUser(PERMISSIONS.LOW), async ( req, res) => {
+router.delete('/:expId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         const exp = await InterviewExperience.deleteOne({_id : req.params.expId});
         res.json(exp);
@@ -62,8 +75,28 @@ router.delete('/delete_exp/:expId', authUser(PERMISSIONS.LOW), async ( req, res)
     }
 });
 
+// delete my exp
+router.delete('/deleteMyExp/:expId', authUser(PERMISSIONS.LOW), async ( req, res) => {
+    try{
+        const token = req.cookies.jwt;
+        var decoded = jwt_decode(token);
+
+        const creator = await InterviewExperience.findById(req.params.expId);
+
+        if(creator.created_by != decoded._id)
+        {
+            return res.status(403).json({ message: "Not Authorised"});
+        }
+        const exp = await InterviewExperience.deleteOne({_id : req.params.expId});
+        res.json(exp);
+    }
+    catch(err){
+        res.json({ message: err.message });
+    }
+});
+
 // update experience
-router.patch('/update_exp/:expId', authUser(PERMISSIONS.LOW), async ( req, res) => {
+router.patch('/:expId', authUser(PERMISSIONS.LOW), async ( req, res) => {
     try{
         const token = req.cookies.jwt;
         var decoded = jwt_decode(token);

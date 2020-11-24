@@ -38,19 +38,19 @@ app.get("/api", (req, res) => {
 app.use("/api/", require("./routes/authRoutes"));
 
 //Company Routes
-app.use("/api/", require("./routes/companyRoutes"));
+app.use("/api/company", require("./routes/companyRoutes"));
 
 //Placements Routes
-app.use("/api/", require("./routes/placementRoutes"));
+app.use("/api/placements", require("./routes/placementRoutes"));
 
 //Interview Experience Routes
-app.use("/api/", require("./routes/interviewExperienceRoutes"));
+app.use("/api/interviewExperiences", require("./routes/interviewExperienceRoutes"));
 
 //Students Routes
-app.use("/api/", require("./routes/studentRoutes"));
+app.use("/api/students", require("./routes/studentRoutes"));
 
 //Coordinators Routes
-app.use("/api/", require("./routes/coordinatorRoutes"));
+app.use("/api/coordinators", require("./routes/coordinatorRoutes"));
 
 // Handle Production
 if (process.env.NODE_ENV == "production") {

@@ -6,21 +6,35 @@ const jwt_decode = require('jwt-decode');
 
 
 // get students list
-router.get("/students", async (req, res) => {
+router.get("/", authUser(PERMISSIONS.MED), async (req, res) => {
     try {
-        const students = await Students.find();
+
+        const queryObj = {...req.query};
+
+        let queryStr = JSON.stringify(queryObj);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+
+        const query = Students.find(JSON.parse(queryStr));
+
+        const students = await query;
         res.status(200).json(students);
     } catch (err) {
         res.json({ message: err.message });
     }
 });
 
-//get student details based on filters
-
-
+// get student based on Id
+router.get("/:Id", authUser(PERMISSIONS.MED), async (req, res) => {
+    try {
+        const students = await Students.findById(req.params.Id);
+        res.status(200).json(students);
+    } catch (err) {
+        res.json({ message: err.message });
+    }
+});
 
 // add student details
-router.post('/register_student', async(req,res) => {
+router.post('/', authUser(PERMISSIONS.LOW), async(req,res) => {
     try{
         const token = req.cookies.jwt;
         if(token == null)
@@ -79,7 +93,7 @@ router.post('/register_student', async(req,res) => {
 });
 
 // delete student
-router.delete('/delete_student/:userId', authUser(PERMISSIONS.MED), async ( req, res) => {
+router.delete('/:userId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         const student = await Students.findByIdAndDelete(req.params.userId);
         res.json(student);
@@ -90,7 +104,7 @@ router.delete('/delete_student/:userId', authUser(PERMISSIONS.MED), async ( req,
 });
 
 // update student
-router.patch('/update_student/:Id', authUser(PERMISSIONS.LOW), async ( req, res) => { //use jwt token
+router.patch('/:Id', authUser(PERMISSIONS.LOW), async ( req, res) => { //use jwt token
     try{
         const updatedStudent = await Students.findByIdAndUpdate( 
             req.params.Id,
@@ -142,6 +156,22 @@ router.patch('/update_student/:Id', authUser(PERMISSIONS.LOW), async ( req, res)
     }
 });
 
+// verify students
+router.patch('/verifyStudents/:stId', authUser(PERMISSIONS.MED), async ( req, res) => {
+    try{
+        
+        const verifiedSt = await Students.updateOne(
+            {_id : req.params.stId},
+            {$set: {
+                is_verified: true,
+                }    
+            });
+            res.status(200).json({ message: "Student verified" });
+    }
+    catch(err){
+        res.json({ message: err.message });
+    }
+});
 
 
 module.exports = router;

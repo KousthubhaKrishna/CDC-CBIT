@@ -23,6 +23,7 @@ const basicInfo = new mongoose.Schema({
     branch:{
         type: String,
         required: true,
+        lowercase: true 
     },
     section:{
         type: String,
