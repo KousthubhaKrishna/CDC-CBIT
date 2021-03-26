@@ -4,6 +4,8 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { PERMISSIONS, authUser } = require("./middleware/Auth");
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
 
 // Database Connection
 require("./models/Conn");
@@ -28,6 +30,8 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(500).send();
 });
+
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 // Routes
 app.get("/api", (req, res) => {

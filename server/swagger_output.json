@@ -1,0 +1,1380 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "CDC-CBIT API",
+    "description": "The following is the list of all the endpoints available for different end-users."
+  },
+  "host": "localhost:3080",
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY",
+      "description": "any description..."
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/addStudent": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/addCoordinator": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/addAdmin": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/logout": {
+      "delete": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/company/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/company/{companyId}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "company_id": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "company_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "photo_url": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/placements/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/placements/{plcId}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "plcId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/placements/placements/{companyName}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "companyName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/placements/{companyId}": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "job_type": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "job_description": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "package": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "drive_details": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "posted_date": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "cgpa": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "backlogs": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "branches": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "ann_date": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/placements/{placementId}": {
+      "delete": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "placementId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "placementId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "job_type": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "job_description": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "package": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "drive_details": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "posted_date": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "cgpa": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "backlogs": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "branches": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "ann_date": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/placements/addPlacedStudents/{placementId}": {
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "placementId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "placed_students": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/interviewExperiences/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "company_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/interviewExperiences/{Id}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/interviewExperiences/exp/{companyName}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "companyName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/interviewExperiences/{expId}": {
+      "delete": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "expId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "expId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "company_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/interviewExperiences/deleteMyExp/{expId}": {
+      "delete": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "expId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/students/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "last_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "full_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "roll_number": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "branch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "section": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "primary_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "secondary_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "mobile": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "secondary_mobile": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "cgpa": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "backlogs": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "inter_or_diploma_college": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "inter_or_diploma_percentage": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "school": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "school_percentage": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "eamcet_rank": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "jee_rank": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "parent_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "zipcode": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "date_of_birth": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "photo_url": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "resume_url": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/students/{Id}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "last_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "full_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "roll_number": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "branch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "section": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "primary_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "secondary_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "mobile": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "secondary_mobile": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "cgpa": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "backlogs": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "inter_or_diploma_college": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "inter_or_diploma_percentage": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "school": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "school_percentage": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "eamcet_rank": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "jee_rank": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "parent_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "zipcode": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "date_of_birth": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "photo_url": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "resume_url": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/students/{userId}": {
+      "delete": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/students/verifyStudents/{stId}": {
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "stId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/coordinators/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "branch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "first_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "last_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "full_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "roll_number": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "section": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "primary_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "secondary_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "mobile": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "secondary_mobile": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "photo_url": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/coordinators/{Id}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/coordinators/{userId}": {
+      "delete": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/snaps/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/snaps/{snapId}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "snapId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/snaps/placement_snaps/{placementId}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "placementId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/snaps/{placementId}": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "placementId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "snap_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "type_of_data": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "fields": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "extra_fields": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "last_date": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "collect_data": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {}
+}
