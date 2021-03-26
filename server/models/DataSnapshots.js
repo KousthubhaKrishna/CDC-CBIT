@@ -18,14 +18,15 @@ const DataSnapshotSchema = new mongoose.Schema({
         ref: 'auth'
     },
     data:{
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Students'
+        // type: [mongoose.Schema.Types.ObjectId],
+        // ref: 'Students'
+        type: [] //an empty array is equivalent to Mixed
     },
 
     type_of_data:{
         type: String,
     },
-    batch: String,
+    placement_batch: String,
     collect_data: Boolean,
 
     fields:{

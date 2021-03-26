@@ -52,6 +52,9 @@ app.use("/api/students", require("./routes/studentRoutes"));
 //Coordinators Routes
 app.use("/api/coordinators", require("./routes/coordinatorRoutes"));
 
+//Snapshots Routes
+app.use("/api/snaps", require("./routes/snapRoutes"));
+
 // Handle Production
 if (process.env.NODE_ENV == "production") {
     // Static folder

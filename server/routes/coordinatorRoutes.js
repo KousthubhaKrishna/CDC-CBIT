@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Coordinators = require("../models/Coordinators");
-const jwt_decode = require('jwt-decode');
+const jwt = require("jsonwebtoken");
+
 
 
 // get Coordinators list
@@ -85,7 +86,7 @@ router.patch('/', authUser(PERMISSIONS.MED), async ( req, res) => {
         {
             return res.json({ message: "Not Authorised" });
         }
-        var decoded = jwt_decode(token);
+        var decoded = jwt.decode(token);
 
         branchStr = req.body.branch.toLowerCase()
        

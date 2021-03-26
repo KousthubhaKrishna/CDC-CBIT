@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Students = require("../models/Students");
-const jwt_decode = require('jwt-decode');
-
+const jwt = require("jsonwebtoken");
 
 // get students list
 router.get("/", authUser(PERMISSIONS.MED), async (req, res) => {
@@ -41,7 +40,7 @@ router.post('/', authUser(PERMISSIONS.LOW), async(req,res) => {
         {
             return res.json({ message: "Not Authorised" });
         }
-        var decoded = jwt_decode(token);
+        var decoded = jwt.decode(token);
 
         const stObj = new Students( {
             _id : decoded._id,

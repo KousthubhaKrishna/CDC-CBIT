@@ -1,8 +1,7 @@
 const express = require("express");
 const InterviewExperience = require("../models/InterviewExperience");
 const router = express.Router();
-const jwt_decode = require('jwt-decode');
-const { decode } = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
  
 
@@ -47,7 +46,7 @@ router.get('/exp/:companyName',async ( req, res) => {
 router.post("/", authUser(PERMISSIONS.LOW), async (req, res) => {
     try {
         const token = req.cookies.jwt;
-        var decoded = jwt_decode(token);
+        var decoded = jwt.decode(token);
 
         const newExp = {
             company_name: req.body.company_name,
@@ -79,7 +78,7 @@ router.delete('/:expId', authUser(PERMISSIONS.MED), async ( req, res) => {
 router.delete('/deleteMyExp/:expId', authUser(PERMISSIONS.LOW), async ( req, res) => {
     try{
         const token = req.cookies.jwt;
-        var decoded = jwt_decode(token);
+        var decoded = jwt.decode(token);
 
         const creator = await InterviewExperience.findById(req.params.expId);
 
@@ -99,7 +98,7 @@ router.delete('/deleteMyExp/:expId', authUser(PERMISSIONS.LOW), async ( req, res
 router.patch('/:expId', authUser(PERMISSIONS.LOW), async ( req, res) => {
     try{
         const token = req.cookies.jwt;
-        var decoded = jwt_decode(token);
+        var decoded = jwt.decode(token);
 
         const creator = await InterviewExperience.findById(req.params.expId);
 

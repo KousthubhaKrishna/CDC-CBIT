@@ -1,8 +1,5 @@
 const express = require("express");
-const InterviewExperience = require("../models/InterviewExperience");
 const router = express.Router();
-const jwt_decode = require('jwt-decode');
-const { decode } = require("jsonwebtoken");
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Placements = require("../models/Placements");
 const Students = require("../models/Students");
@@ -135,4 +132,5 @@ router.patch('/addPlacedStudents/:placementId', authUser(PERMISSIONS.MED), async
 });
 
 module.exports = router;
+
 
