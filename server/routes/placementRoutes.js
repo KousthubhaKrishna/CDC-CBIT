@@ -36,12 +36,13 @@ router.get('/:plcId',async ( req, res) => {
 });
 
 
-// get list of placements based on company name
-router.get('/placements/:companyName',async ( req, res) => {
+// get list of placements based on company Id
+router.get('/placements/:companyId',async ( req, res) => {
     try{
-        const pl = await Placements.find({company_name : req.params.companyName});
+        const pl = await Placements.find({company_id : req.params.companyId});
+        console.log(pl);
         if(pl == null)
-            res.status(401).json({ message: "Invalid company name" });
+            res.status(401).json({ message: "Invalid company id" });
         res.status(200).json(pl);
     }
     catch(err){

@@ -43,8 +43,17 @@ router.post("/", authUser(PERMISSIONS.MED), async (req, res) => {
     console.log("Adding New Company");
     try {
 
-        const newCompany = await Company.create(req.body);
-        res.status(201).json(newCompany);
+        // const newCompany = await Company.create(req.body);
+        // res.status(201).json(newCompany);
+
+        const companyObj = new Company( {
+            company_id: req.body.companyId,
+            company_name: req.body.company_name,
+            description: req.body.description,
+            photo_url: req.body.photo_url,
+        });
+        const savedCompany = await companyObj.save();
+        res.status(201).json(savedCompany);
 
     } catch (err) {
         // Error : User Already Exists

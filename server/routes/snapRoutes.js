@@ -55,10 +55,6 @@ router.get('/placement_snaps/:placementId', authUser(PERMISSIONS.MED), async ( r
 router.post('/:placementId', authUser(PERMISSIONS.MED), async(req, res)  => {
     try{
         const token = req.cookies.jwt;
-        // if(token == null)
-        // {
-        //     return res.json({ message: "Not Authorised" });
-        // }
         var decoded = jwt.decode(token);
 
         const snapObj = new DataSnapshots( {
@@ -82,6 +78,16 @@ router.post('/:placementId', authUser(PERMISSIONS.MED), async(req, res)  => {
 });
 
 
+// delete snap
+router.delete('/:snapId', authUser(PERMISSIONS.MED), async ( req, res) => {
+    try{
+        const snap = await DataSnapshots.findByIdAndDelete(req.params.snapId);
+        res.json(snap);
+    }
+    catch(err){
+        res.json({ message: err.message });
+    }
+});
 
 
 
