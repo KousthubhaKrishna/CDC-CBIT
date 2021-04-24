@@ -14,7 +14,7 @@
         >
           <v-row class="fill-height" align="center" justify="center">
             <div align="center">
-              <p class="display-3">
+              <p class="display-2">
                 Career Development Center
               </p>
               <p class="display-1">

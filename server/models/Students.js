@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const basicInfo = require('./documents/basicInfo');
-const ContactInfo = require('./documents/ContactInfo');
+const ContactInfo = require('./documents/contactInfo');
 const EducationInfo = require('./documents/educationInfo');
 const PersonalInfo = require('./documents/personalInfo');
 

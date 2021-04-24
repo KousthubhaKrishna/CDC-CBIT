@@ -67,7 +67,7 @@ export default {
           return pattern.test(value) || "Invalid e-mail.";
         }
       },
-      loading: false,
+      loading: false
     };
   },
   created: function() {

@@ -1,10 +1,13 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const router = express.Router();
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
+const SendEmail = require("../middleware/SendEmail");
 const Auth = require("../models/Auth");
+const Token = require("../models/Token")
 
 // Login
 router.post("/login", async (req, res) => {
@@ -121,3 +124,44 @@ router.delete("/logout", async (req, res) => {
 });
 
 module.exports = router;
+
+// Passoword Reset Request
+router.get("/forgot_password/:user_email", async (req, res) => {
+    try {
+        user_email = req.params.user_email
+        const account = await Auth.findOne({
+            user_email: user_email,
+        });
+        if (account == null)
+            return res.status(401).json({ message: "Account does not exists for given email" });
+    
+        reset_token = crypto.randomBytes(20).toString('hex');
+        const existing_token = await Token.findOne({
+            user_email: user_email,
+        });
+        if (existing_token != null) {
+            // update
+        } else {
+            // insert
+        }
+        
+        const link = `${"cdc-cbit"}/passwordReset?token=${reset_token}&id=${user_email}`;
+        const responseMessage = await SendEmail(user_email,"Password Reset Request",{email: user_email,link: link,},"./template/requestResetPassword.handlebars");
+        res.json({ message: responseMessage.message });
+    } catch (err) {
+        res.status(400).json({ message: responseMessage.message });
+    }
+});
+
+router.post("/forgot_password_reset/", async (req, res) => {
+    // body has token email and new password
+    // get token from db with email
+    // get token from url
+    // if matched -> reset password
+    // else - > error
+});
+
+// reset passowor func
+// reset pasword via email or id
+
+// change passowrd - input old passowrd and new password , comapre and call reset password
