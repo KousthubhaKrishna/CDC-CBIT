@@ -163,7 +163,7 @@ router.get("/forgot_password/:user_email", async (req, res) => {
             console.log(insertToken);
         }
 
-        const link = `${"cdc-cbit"}/passwordReset?token=${reset_token}&id=${user_email}`;
+        const link = `${process.env.CLIENT_URL}/login/${user_email}/${reset_token}`;
         const responseMessage = await SendEmail(user_email, "Password Reset Request", { email: user_email, link: link, }, "./template/requestResetPassword.handlebars");
         res.json({ message: responseMessage.message });
     } catch (err) {
