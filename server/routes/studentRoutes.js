@@ -121,7 +121,6 @@ router.patch('/', authUser(PERMISSIONS.LOW), async ( req, res) => { //use jwt to
         const updatedStudent = await Students.findByIdAndUpdate( 
             decoded._id,
             {$set: {
-                is_verified: false,
                 basic_info:{
                     first_name: req.body.first_name,
                     last_name: req.body.last_name,
