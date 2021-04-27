@@ -23,9 +23,16 @@ router.get("/", authUser(PERMISSIONS.MED), async (req, res) => {
 });
 
 // get student based on Id
-router.get("/:Id", authUser(PERMISSIONS.MED), async (req, res) => {
+router.get("/myProfile", authUser(PERMISSIONS.LOW), async (req, res) => {
     try {
-        const students = await Students.findById(req.params.Id);
+        const token = req.cookies.jwt;
+        if(token == null)
+        {
+            return res.json({ message: "Not Authorised" });
+        }
+        var decoded = jwt.decode(token);
+
+        const students = await Students.findById(decoded._id);
         res.status(200).json(students);
     } catch (err) {
         res.json({ message: err.message });
@@ -103,10 +110,16 @@ router.delete('/:userId', authUser(PERMISSIONS.MED), async ( req, res) => {
 });
 
 // update student
-router.patch('/:Id', authUser(PERMISSIONS.LOW), async ( req, res) => { //use jwt token
+router.patch('/', authUser(PERMISSIONS.LOW), async ( req, res) => { //use jwt token
     try{
+        const token = req.cookies.jwt;
+        if(token == null)
+        {
+            return res.json({ message: "Not Authorised" });
+        }
+        var decoded = jwt.decode(token);
         const updatedStudent = await Students.findByIdAndUpdate( 
-            req.params.Id,
+            decoded._id,
             {$set: {
                 is_verified: false,
                 basic_info:{
