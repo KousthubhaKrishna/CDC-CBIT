@@ -1,5 +1,6 @@
 const express = require("express");
 const DataSnapshots = require("../models/DataSnapshots");
+const Placements = require("../models/Placements");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
@@ -26,7 +27,7 @@ router.get("/", authUser(PERMISSIONS.MED), async (req, res) => {
 });
 
 // get Snaps based on Snap Id
-router.get('/:snapId', authUser(PERMISSIONS.MED), async ( req, res) => {
+router.get('/:snapId', authUser(PERMISSIONS.LOW), async ( req, res) => {
     try{
         const snap = await DataSnapshots.findById(req.params.snapId);
         if(snap == null)
@@ -67,9 +68,19 @@ router.post('/:placementId', authUser(PERMISSIONS.MED), async(req, res)  => {
             fields: req.body.fields,
             extra_fields: req.body.extra_fields,
             last_date: new Date(req.body.last_date),  
-            collect_data: req.body.collect_data,
         });
         const savedSnap = await snapObj.save();
+        console.log(savedSnap);
+
+        if(req.body.isFirst){
+        const updatedPl = await Placements.updateOne(
+            {_id : req.params.placementId},
+            {$set: {
+                register_snap: savedSnap._id
+            }});
+        }
+
+
         res.status(201).json(savedSnap);
     }
     catch(err){

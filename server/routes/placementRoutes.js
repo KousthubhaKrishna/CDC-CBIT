@@ -62,8 +62,7 @@ router.post("/:companyId", authUser(PERMISSIONS.MED), async (req, res) => {
             drive_details: req.body.drive_details,
             placement_batch: req.body.placement_batch,
             posted_date: new Date(req.body.posted_date),
-            eligibility:{cgpa: req.body.cgpa, backlogs: req.body.backlogs, branches: req.body.branches}, 
-            announcements:{message: req.body.message, date: new Date(req.body.ann_date)},   
+            eligibility:{cgpa: req.body.cgpa, backlogs: req.body.backlogs, branches: req.body.branches},   
         });
         const savedPlacement = await plObj.save();
         res.status(201).json(savedPlacement);
@@ -89,18 +88,10 @@ router.delete('/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
 router.patch('/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         
+        console.log(req.body);
         const updatedPl = await Placements.updateOne(
             {_id : req.params.placementId},
-            {$set: {
-                job_type: req.body.job_type,
-                job_description: req.body.job_description,
-                package: req.body.package,
-                drive_details: req.body.drive_details,
-                placement_batch: req.body.placement_batch,
-                posted_date: new Date(req.body.posted_date),
-                eligibility:{cgpa: req.body.cgpa, backlogs: req.body.backlogs, branches: req.body.branches}, 
-                announcements:{message: req.body.message, date: new Date(req.body.ann_date)},
-                }    
+            {$set: req.body
             });
         res.json(updatedPl);
     }
@@ -131,6 +122,9 @@ router.patch('/addPlacedStudents/:placementId', authUser(PERMISSIONS.MED), async
         res.json({ message: err.message });
     }
 });
+
+
+
 
 module.exports = router;
 

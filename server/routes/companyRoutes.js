@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
 router.get('/:companyId',async ( req, res) => {
     console.log(req.params.companyId);
     try{
-        const company = await Company.findOne({company_id : req.params.companyId});
+        const company = await Company.findOne({_id : req.params.companyId});
         console.log(company);
         if(company == null)
             res.status(401).json({ message: "Invalid company Id" });

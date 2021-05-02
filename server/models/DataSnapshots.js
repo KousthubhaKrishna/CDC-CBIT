@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const DataSnapshotSchema = new mongoose.Schema({
-    snap_id:{
-        type: String,
-        required: true, 
-    },
     snap_name:{
         type: String,
         required: true, 

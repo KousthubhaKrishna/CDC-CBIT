@@ -34,14 +34,11 @@ const PlacementSchema = new mongoose.Schema({
     },
 
     placed_students: [String], 
-    
-    announcements:{
-        message:String,
-        date:{
-            type:Date,
-            default: Date.now
-        },
-    }
+
+    register_snap:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'DataSnapshots'
+    },
     
 });
 
