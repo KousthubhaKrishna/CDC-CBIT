@@ -4,10 +4,27 @@ const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const router = express.Router();
-const { PERMISSIONS, authUser } = require("../middleware/Auth");
+const { ROLES, PERMISSIONS, authUser } = require("../middleware/Auth");
 const SendEmail = require("../middleware/SendEmail");
 const Auth = require("../models/Auth");
+const Students = require("../models/Students");
+const Coordinators = require("../models/Coordinators");
 const Token = require("../models/Token")
+
+//all studentAccounts
+router.get("/accounts/:role", authUser(PERMISSIONS.MED), async (req, res) => {
+    try {
+
+        const queryObj = { role: req.params.role };
+
+        const query = Auth.find(queryObj);
+
+        const accounts = await query;
+        res.status(200).json(accounts);
+    } catch (err) {
+        res.json({ message: err.message });
+    }
+});
 
 // Login
 router.post("/login", async (req, res) => {
@@ -53,18 +70,23 @@ router.post("/addStudent", authUser(PERMISSIONS.MED), async (req, res) => {
             user_email: req.body.user_email,
             password: req.body.password,
             role: "student",
+            branch: req.body.branch,
+            roll_number: req.body.roll_number,
+            section: req.body.section,
+            placement_batch: req.body.placement_batch,
         };
         const studentObj = new Auth(newStudent);
         const savedStudent = await studentObj.save();
         res.status(201).json(savedStudent);
     } catch (err) {
         // Error : User Already Exists
+        console.log(err.message);
         message = err.message;
         if (err.code == 11000) {
             message = "User Already Exists !";
             res.status(400).send(message);
         }
-        res.json({ message: message });
+        res.status(400).send({ message: message });
     }
 });
 
@@ -76,6 +98,10 @@ router.post("/addCoordinator", authUser(PERMISSIONS.HIGH), async (req, res) => {
             user_email: req.body.user_email,
             password: req.body.password,
             role: "coordinator",
+            branch: req.body.branch,
+            roll_number: req.body.roll_number,
+            section: req.body.section,
+            placement_batch: req.body.placement_batch,
         };
         var coordinatorObj = new Auth(newCoordinator);
         const savedCoordinator = await coordinatorObj.save();
@@ -110,6 +136,50 @@ router.post("/addAdmin", authUser(PERMISSIONS.HIGH), async (req, res) => {
             message = "User Already Exists !";
             res.status(400).send(message);
         }
+        res.json({ message: message });
+    }
+});
+
+// Add Student Account
+router.patch("/updateStudent", authUser(PERMISSIONS.MED), async (req, res) => {
+    console.log("Updating Student");
+    try {
+        const newStudent = {
+            user_email: req.body.user_email,
+            role: "student",
+            branch: req.body.branch,
+            roll_number: req.body.roll_number,
+            section: req.body.section,
+            placement_batch: req.body.placement_batch,
+        };
+        const studentObj = await Auth.updateOne({ _id: req.body._id }, { $set: { ...newStudent } });
+        res.status(201).json(studentObj);
+    } catch (err) {
+        // Error : User Already Exists
+        console.log(err.message);
+        message = err.message;
+        res.status(400).send({ message: message });
+    }
+});
+
+// Add PC Account
+router.patch("/addCoordinator", authUser(PERMISSIONS.HIGH), async (req, res) => {
+    console.log("Updating Coordinator");
+    try {
+        var newCoordinator = {
+            user_email: req.body.user_email,
+            password: req.body.password,
+            role: "coordinator",
+            branch: req.body.branch,
+            roll_number: req.body.roll_number,
+            section: req.body.section,
+            placement_batch: req.body.placement_batch,
+        };
+        var coordinatorObj = await Auth.updateOne({ _id: req.body._id }, { $set: { ...newCoordinator } });
+        res.status(201).json(coordinatorObj);
+    } catch (err) {
+        // Error : User Already Exists
+        message = err.message;
         res.json({ message: message });
     }
 });

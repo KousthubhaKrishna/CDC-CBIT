@@ -2,25 +2,42 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const Auth = new mongoose.Schema({
-    user_email: { 
-        type: String, 
-        required: [ true , 'Please enter your email'],
-        unique : true
+    user_email: {
+        type: String,
+        required: [true, 'Please enter your email'],
+        unique: true
 
     },
-    password: { 
+    password: {
         type: String,
         required: [true, 'Please setup a password'],
     },
-    role: { 
+    role: {
         type: String,
         enum: ["student", "coordinator", "admin"],
-        default: "student" 
-    }
+        default: "student"
+    },
+    roll_number: {
+        type: String,
+        unique: [true, "Student with Roll Number Already Exists"],
+        maxlength: 12,
+        minlength: 12,
+    },
+    branch: {
+        type: String,
+        lowercase: true
+    },
+    section: {
+        type: String,
+        maxlength: 1
+    },
+    placement_batch: {
+        type: String,
+    },
 });
-Auth.pre('save',async function(next){
+Auth.pre('save', async function (next) {
     const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password,salt);
+    this.password = await bcrypt.hash(this.password, salt);
     next();
 })
 
