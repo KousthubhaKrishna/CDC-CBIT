@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
 const InterviewExperienceSchema = new mongoose.Schema({
-    content: { 
+    title: {
+        type: String,
+        required: [true, 'Please enter title'],
+    },
+    content: {
         type: String,
         required: [true, 'Please enter your interview experience'],
     },
-    date : {
+    date: {
         type: Date,
         default: Date.now
     },
@@ -13,15 +17,15 @@ const InterviewExperienceSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter the company name'],
     },
-    created_by:{
-        type: mongoose.Schema.Types.ObjectId , 
+    created_by: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Students'
     }
 });
 
 // query middleware
 
-InterviewExperienceSchema.pre(/^find/, function(next) {
+InterviewExperienceSchema.pre(/^find/, function (next) {
     this.populate({
         path: 'created_by',
         select: 'basic_info.full_name',

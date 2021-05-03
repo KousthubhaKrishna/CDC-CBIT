@@ -10,7 +10,7 @@ const Auth = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Please setup a password'],
+        default: "password"
     },
     role: {
         type: String,

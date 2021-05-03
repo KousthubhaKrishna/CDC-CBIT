@@ -121,6 +121,7 @@ router.patch('/', authUser(PERMISSIONS.LOW), async (req, res) => { //use jwt tok
             decoded._id,
             {
                 $set: {
+                    is_verified: req.body.is_verified,
                     basic_info: {
                         first_name: req.body.first_name,
                         last_name: req.body.last_name,
