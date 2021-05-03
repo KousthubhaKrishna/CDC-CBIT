@@ -82,7 +82,7 @@ router.delete('/:companyId', authUser(PERMISSIONS.MED), async ( req, res) => {
 router.patch('/:companyId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         const updatedCompany = await Company.updateOne(
-            {company_id : req.params.companyId},
+            {_id : req.params.companyId},
             {$set: {
                 company_id : req.body.company_id,
                 company_name : req.body.company_name,

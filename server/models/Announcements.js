@@ -15,7 +15,7 @@ const AnnouncementSchema = new mongoose.Schema({
     },
     type: { 
         type: String,
-        enum: ["Message","Pre-placement Talk","Test"]
+        enum: ["Message","Meeting","Pre-placement Talk","Test"]
     },
 });
 

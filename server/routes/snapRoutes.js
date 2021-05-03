@@ -100,6 +100,25 @@ router.delete('/:snapId', authUser(PERMISSIONS.MED), async ( req, res) => {
     }
 });
 
+//add data
+router.patch('/add_data/:plcId', authUser(PERMISSIONS.LOW),async ( req, res) => {
+    try{
+        
+        const snapData = req.body;
+        console.log(snapData);
+        const updatedSnap = await DataSnapshots.updateOne(
+            {_id : req.params.placementId},
+            {$push: {
+                data: snapData,
+                }    
+            });
+        
+        res.status(200).json(updatedSnap);
+    }
+    catch(err){
+        res.json({ message: err.message });
+    }
+});
 
 
 module.exports = router;

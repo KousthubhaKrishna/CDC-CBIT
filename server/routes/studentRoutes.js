@@ -185,6 +185,39 @@ router.patch('/verifyStudents/:stId', authUser(PERMISSIONS.MED), async (req, res
     }
 });
 
+//add data
+router.get('/student_data/', authUser(PERMISSIONS.LOW),async ( req, res) => {
+    try{
+        
+        const fields = {
+            "Full Name" : 'basic_info.full_name',
+            "First Name" : 'basic_info.first_name',
+            "Last Name" : 'basic_info.last_name',
+            "Roll Number" : "basic_info.roll_number",
+            "Branch" : "basic_info.branch",
+            "Section" : "basic_info.section",           
+        } 
+
+        const snapFields = req.body.fields;
+        const selField = '';
+
+        snapFields.forEach(element => {
+            snapField[element] = fields[snapField[element]];
+            selField = selField.concat(snapField[element]);
+            selField = selField.concat(' ');
+        });
+        console.log(snapFields);
+        console.log(selField);
+
+
+        
+        res.status(200).json(fields);
+    }
+    catch(err){
+        res.json({ message: err.message });
+    }
+});
+
 
 module.exports = router;
 

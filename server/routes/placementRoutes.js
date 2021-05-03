@@ -3,6 +3,7 @@ const router = express.Router();
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Placements = require("../models/Placements");
 const Students = require("../models/Students");
+const DataSnapshots = require("../models/DataSnapshots");
 
 // get placements
 router.get("/", async (req, res) => {
@@ -117,6 +118,23 @@ router.patch('/addPlacedStudents/:placementId', authUser(PERMISSIONS.MED), async
             }).where('basic_info.roll_number').in(placed);  
             console.log(updatedst);       
         res.json(updatedPl);
+    }
+    catch(err){
+        res.json({ message: err.message });
+    }
+});
+
+//register students
+router.get('/register/:plcId', authUser(PERMISSIONS.LOW),async ( req, res) => {
+    try{
+        const pl = await Placements.findById(req.params.plcId);
+        if(pl == null)
+            res.status(401).json({ message: "Invalid Id" });
+
+        const snapId = pl.register_snap;
+        const snap = await DataSnapshots.findById(snapId);
+        console.log(snap);
+        res.status(200).json(snap);
     }
     catch(err){
         res.json({ message: err.message });
