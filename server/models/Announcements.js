@@ -5,6 +5,12 @@ const AnnouncementSchema = new mongoose.Schema({
         type: String, 
         required: true,
     },
+    title:{
+        type:String,
+    },
+    date:{
+        type: Date,
+    },
     posted_date: { 
         type: Date,
         default: Date.now,

@@ -105,14 +105,13 @@ router.patch('/add_data/:plcId', authUser(PERMISSIONS.LOW),async ( req, res) => 
     try{
         
         const snapData = req.body;
-        console.log(snapData);
         const updatedSnap = await DataSnapshots.updateOne(
-            {_id : req.params.placementId},
+            {_id : req.params.plcId},
             {$push: {
                 data: snapData,
                 }    
             });
-        
+        console.log(updateSnap);
         res.status(200).json(updatedSnap);
     }
     catch(err){

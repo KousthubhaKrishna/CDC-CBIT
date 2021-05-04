@@ -42,7 +42,9 @@ router.post("/:placementId", authUser(PERMISSIONS.MED), async (req, res) => {
         const annObj = new Announcements( {
             message: req.body.message,
             placement_id: req.params.placementId,
-            type: req.body.type,   
+            type: req.body.type, 
+            date: req.body.date,
+            title: req.body.title,  
         });
         const savedAnnouncement = await annObj.save();
         res.status(201).json(savedAnnouncement);
