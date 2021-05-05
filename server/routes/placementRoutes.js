@@ -9,7 +9,7 @@ const DataSnapshots = require("../models/DataSnapshots");
 router.get("/", async (req, res) => {
     try {
 
-        const queryObj = {...req.query};
+        const queryObj = { ...req.query };
 
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
@@ -24,29 +24,28 @@ router.get("/", async (req, res) => {
 });
 
 // get list of placements based on placement Id
-router.get('/:plcId',async ( req, res) => {
-    try{
+router.get('/:plcId', async (req, res) => {
+    try {
         const pl = await Placements.findById(req.params.plcId);
-        if(pl == null)
+        if (pl == null)
             res.status(401).json({ message: "Invalid Id" });
         res.status(200).json(pl);
     }
-    catch(err){
+    catch (err) {
         res.json({ message: err.message });
     }
 });
 
 
 // get list of placements based on company Id
-router.get('/placements/:companyId',async ( req, res) => {
-    try{
-        const pl = await Placements.find({company_id : req.params.companyId});
-        console.log(pl);
-        if(pl == null)
+router.get('/placements/:companyId', async (req, res) => {
+    try {
+        const pl = await Placements.find({ company_id: req.params.companyId });
+        if (pl == null)
             res.status(401).json({ message: "Invalid company id" });
         res.status(200).json(pl);
     }
-    catch(err){
+    catch (err) {
         res.json({ message: err.message });
     }
 });
@@ -55,7 +54,7 @@ router.get('/placements/:companyId',async ( req, res) => {
 // Add placements
 router.post("/:companyId", authUser(PERMISSIONS.MED), async (req, res) => {
     try {
-        const plObj = new Placements( {
+        const plObj = new Placements({
             company_id: req.params.companyId,
             job_type: req.body.job_type,
             job_description: req.body.job_description,
@@ -63,7 +62,7 @@ router.post("/:companyId", authUser(PERMISSIONS.MED), async (req, res) => {
             drive_details: req.body.drive_details,
             placement_batch: req.body.placement_batch,
             posted_date: new Date(req.body.posted_date),
-            eligibility:{cgpa: req.body.cgpa, backlogs: req.body.backlogs, branches: req.body.branches},   
+            eligibility: { cgpa: req.body.cgpa, backlogs: req.body.backlogs, branches: req.body.branches },
         });
         const savedPlacement = await plObj.save();
         res.status(201).json(savedPlacement);
@@ -74,69 +73,69 @@ router.post("/:companyId", authUser(PERMISSIONS.MED), async (req, res) => {
 
 
 // delete placements
-router.delete('/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
-    try{
-        const pl = await Placements.deleteOne({_id : req.params.placementId});
+router.delete('/:placementId', authUser(PERMISSIONS.MED), async (req, res) => {
+    try {
+        const pl = await Placements.deleteOne({ _id: req.params.placementId });
         res.json(pl);
     }
-    catch(err){
+    catch (err) {
         res.json({ message: err.message });
     }
 });
 
 
 // update placement
-router.patch('/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
-    try{
-        
-        console.log(req.body);
+router.patch('/:placementId', authUser(PERMISSIONS.MED), async (req, res) => {
+    try {
         const updatedPl = await Placements.updateOne(
-            {_id : req.params.placementId},
-            {$set: req.body
+            { _id: req.params.placementId },
+            {
+                $set: req.body
             });
         res.json(updatedPl);
     }
-    catch(err){
+    catch (err) {
         res.json({ message: err.message });
     }
 });
 
 //Add Placed Students
-router.patch('/addPlacedStudents/:placementId', authUser(PERMISSIONS.MED), async ( req, res) => {
-    try{
+router.patch('/addPlacedStudents/:placementId', authUser(PERMISSIONS.MED), async (req, res) => {
+    try {
         const placed = req.body.placed_students;
         const updatedPl = await Placements.updateOne(
-            {_id : req.params.placementId},
-            {$set: {
-                placed_students: placed,
-                }    
+            { _id: req.params.placementId },
+            {
+                $set: {
+                    placed_students: placed,
+                }
             });
-        
-         const updatedst = await Students.updateMany( 
-            {$set: {
-                is_placed: true,}    
-            }).where('basic_info.roll_number').in(placed);  
-            console.log(updatedst);       
+
+        const updatedst = await Students.updateMany(
+            {
+                $set: {
+                    is_placed: true,
+                }
+            }).where('basic_info.roll_number').in(placed);
         res.json(updatedPl);
     }
-    catch(err){
+    catch (err) {
         res.json({ message: err.message });
     }
 });
 
 //register students
-router.get('/register/:plcId', authUser(PERMISSIONS.LOW),async ( req, res) => {
-    try{
+router.get('/register/:plcId', authUser(PERMISSIONS.LOW), async (req, res) => {
+    try {
         const pl = await Placements.findById(req.params.plcId);
-        if(pl == null)
+        if (pl == null)
             res.status(401).json({ message: "Invalid Id" });
 
         const snapId = pl.register_snap;
         const snap = await DataSnapshots.findById(snapId);
-        console.log(snap);
         res.status(200).json(snap);
     }
-    catch(err){
+    catch (err) {
         res.json({ message: err.message });
     }
 });
