@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const basicInfo = require('./documents/basicInfo');
-const ContactInfo = require('./documents/contactInfo');
+const ContactInfo = require('./documents/ContactInfo');
 const EducationInfo = require('./documents/educationInfo');
 const PersonalInfo = require('./documents/personalInfo');
 
@@ -17,8 +17,8 @@ const Students = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    basic_info : basicInfo,
-    contact_info : ContactInfo,
+    basic_info: basicInfo,
+    contact_info: ContactInfo,
     education: EducationInfo,
     personal_info: PersonalInfo,
 
