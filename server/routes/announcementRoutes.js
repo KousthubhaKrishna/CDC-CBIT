@@ -41,7 +41,7 @@ router.post("/:placementId", authUser(PERMISSIONS.MED), async (req, res) => {
     try {
         const annObj = new Announcements({
             message: req.body.message,
-            placement_id: req.params.placementId,
+            placement_id: req.params.placementId !== "nil" ? req.params.placementId : null,
             type: req.body.type,
             date: req.body.date,
             title: req.body.title,
