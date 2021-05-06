@@ -14,8 +14,7 @@ const DataSnapshotSchema = new mongoose.Schema({
         ref: 'auth'
     },
     data:{
-        // type: [mongoose.Schema.Types.ObjectId],
-        // ref: 'Students'
+        
         type: [] //an empty array is equivalent to Mixed
     },
 

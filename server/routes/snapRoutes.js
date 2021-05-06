@@ -27,7 +27,7 @@ router.get("/", authUser(PERMISSIONS.MED), async (req, res) => {
 });
 
 // get Snaps based on Snap Id
-router.get('/:snapId', authUser(PERMISSIONS.LOW), async ( req, res) => {
+router.get('/:snapId', authUser(PERMISSIONS.MED), async ( req, res) => {
     try{
         const snap = await DataSnapshots.findById(req.params.snapId);
         if(snap == null)
@@ -101,23 +101,85 @@ router.delete('/:snapId', authUser(PERMISSIONS.MED), async ( req, res) => {
 });
 
 //add data
-router.patch('/add_data/:plcId', authUser(PERMISSIONS.LOW),async ( req, res) => {
+router.patch('/add_data/:snapId', authUser(PERMISSIONS.LOW),async ( req, res) => {
     try{
         
         const snapData = req.body;
         const updatedSnap = await DataSnapshots.updateOne(
-            {_id : req.params.plcId},
-            {$push: {
-                data: snapData,
-                }    
-            });
-        console.log(updateSnap);
+            {_id : req.params.snapId},
+            {$push: { data: snapData} },
+            {safe: true},
+            );
         res.status(200).json(updatedSnap);
     }
     catch(err){
         res.json({ message: err.message });
     }
 });
+
+//remove data from array
+router.patch('/remove_data/:snapId', authUser(PERMISSIONS.LOW),async ( req, res) => {
+    try{
+        
+        const snapData = req.body;
+        const updatedSnap = await DataSnapshots.updateOne(
+            {_id : req.params.snapId},
+            {
+                $pull: {
+                    data: { roll_number : snapData.roll_number }
+                }
+             },
+            {safe: true},
+            );
+        res.status(200).json(updatedSnap);
+    }
+    catch(err){
+        res.json({ message: err.message });
+    }
+});
+
+//update data
+router.patch('/update_data/:snapId', authUser(PERMISSIONS.LOW),async ( req, res) => {
+    try{
+        
+        const snapData = req.body;
+        console.log(snapData)
+        const updatedSnap = await DataSnapshots.updateOne(
+            {_id : req.params.snapId, 'data.roll_number':snapData.roll_number},
+            {
+                $set: {
+                    data: snapData
+                }
+             },
+            {safe: true},
+            );
+        res.status(200).json(updatedSnap);
+    }
+    catch(err){
+        res.json({ message: err.message });
+    }
+});
+
+
+router.get('/snap_data/:plcId', authUser(PERMISSIONS.LOW), async ( req, res) => {
+    try{
+        const placements = await Placements.findById( req.params.plcId);
+        if(placements == null)
+            res.status(401).json({ message: "Invalid placement Id" });
+        
+        const snapId = placements.register_snap;
+        console.log(snapId);
+        const snap = await DataSnapshots.findById(snapId);
+        if(snap == null)
+            res.status(401).json({ message: "Invalid Id" });
+
+        res.status(200).json(snap);
+    }
+    catch(err){
+        res.json({ message: err.message });
+    }
+});
+
 
 
 module.exports = router;
