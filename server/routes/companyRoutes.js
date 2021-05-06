@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-        const query = Company.find(JSON.parse(queryStr));
+        const query = Company.find(JSON.parse(queryStr)).sort({company_name:1});
 
         const companies = await query;
         res.status(200).json(companies);

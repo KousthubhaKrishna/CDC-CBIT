@@ -6,6 +6,8 @@ const PlacementSchema = new mongoose.Schema({
     
     company_id : {type: mongoose.Schema.Types.ObjectId , ref : 'Company'},
 
+    job_role:{type: String},
+    
     job_type: { 
         type: String,
         required: [true, 'Please enter job type'],
