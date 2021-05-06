@@ -14,15 +14,45 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.7c31519a523a07c1bce8f7c7c5a02778.js"
+  "/precache-manifest.f700fa941c0c4677de6fc04d3b943b69.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "Materialpro"});
+workbox.core.setCacheNameDetails({ prefix: "Materialpro" });
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+});
+
+let notificationUrl = '';
+//notification registered feature for getting update automatically from server api
+self.addEventListener('push', function (event) {
+  let _data = event.data ? JSON.parse(event.data.text()) : {};
+  notificationUrl = _data.url;
+  event.waitUntil(
+    self.registration.showNotification(_data.title, {
+      body: _data.message,
+      icon: _data.icon,
+      tag: _data.tag
+    })
+  );
+});
+
+//notification url redirect event click
+self.addEventListener('notificationclick', function (event) {
+  event.notification.close();
+
+  event.waitUntil(
+    clients.matchAll({
+      type: "window"
+    })
+      .then(function (clientList) {
+        if (clients.openWindow) {
+          return clients.openWindow(notificationUrl);
+        }
+      })
+  );
 });
 
 /**

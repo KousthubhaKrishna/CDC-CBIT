@@ -17,6 +17,7 @@ app.use(
         extended: true,
     })
 );
+app.set('trust proxy', true);
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
@@ -35,6 +36,13 @@ app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 // Routes
 app.get("/api", (req, res) => {
+    res.locals.metaTags = {
+        title: 'web-push-api',
+        description: 'Web Push Notification Full Stack Application With Node Js Restful API',
+        keywords: 'Web Push Notification Full Stack Application With Node Js Restful API',
+        generator: '0.0.0.1',
+        author: 'Kousthubha'
+    };
     res.send("CDC API");
 });
 
@@ -61,6 +69,10 @@ app.use("/api/snaps", require("./routes/snapRoutes"));
 
 //Announcements Routes
 app.use("/api/announcements", require("./routes/announcementRoutes"));
+
+app.use('/api/subscribe/', require("./routes/subscribeRoutes"));
+
+app.use("/api/push", require("./routes/pushRoutes"));
 
 // Handle Production
 if (process.env.NODE_ENV == "production") {
