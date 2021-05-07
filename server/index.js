@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { PERMISSIONS, authUser } = require("./middleware/Auth");
+var json2xls = require('json2xls');
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_output.json')
 
@@ -31,6 +32,7 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(500).send();
 });
+app.use(json2xls.middleware);
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 

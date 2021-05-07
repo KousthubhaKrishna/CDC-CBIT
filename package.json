@@ -17,6 +17,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "handlebars": "^4.7.7",
+    "json2xls": "^0.1.2",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.0.0",
     "mongoose": "^5.10.7",

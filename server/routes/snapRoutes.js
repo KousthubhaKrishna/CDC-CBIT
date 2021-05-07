@@ -200,6 +200,17 @@ router.get('/snap_data/:plcId', authUser(PERMISSIONS.LOW), async (req, res) => {
     }
 });
 
-
+// download
+router.get('/download/:snapId', authUser(PERMISSIONS.MED), async (req, res) => {
+    try {
+        const snap = await DataSnapshots.findById(req.params.snapId);
+        if (snap == null)
+            res.status(401).json({ message: "Invalid Id" });
+        res.xls('data.xlsx', snap.data);
+    }
+    catch (err) {
+        res.json({ message: err.message });
+    }
+});
 
 module.exports = router;

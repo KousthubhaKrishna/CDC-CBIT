@@ -26,6 +26,17 @@ router.get("/accounts/:role", authUser(PERMISSIONS.MED), async (req, res) => {
     }
 });
 
+//all studentAccounts
+router.delete("/deleteAdmin/:userId", authUser(PERMISSIONS.HIGH), async (req, res) => {
+    try {
+        const admin = await Auth.findByIdAndDelete(req.params.userId);
+        res.json(admin);
+    }
+    catch (err) {
+        res.json({ message: err.message });
+    }
+});
+
 // Login
 router.post("/login", async (req, res) => {
     const credentials = req.body;
@@ -95,7 +106,6 @@ router.post("/addCoordinator", authUser(PERMISSIONS.HIGH), async (req, res) => {
     try {
         var newCoordinator = {
             user_email: req.body.user_email,
-            password: req.body.password,
             role: "coordinator",
             branch: req.body.branch,
             roll_number: req.body.roll_number,
@@ -122,7 +132,6 @@ router.post("/addAdmin", authUser(PERMISSIONS.HIGH), async (req, res) => {
     try {
         var newAdmin = {
             user_email: req.body.user_email,
-            password: req.body.password,
             role: "admin",
         };
         var adminObj = new Auth(newAdmin);
