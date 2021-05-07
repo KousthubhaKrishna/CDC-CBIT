@@ -100,6 +100,24 @@ router.delete('/:snapId', authUser(PERMISSIONS.MED), async ( req, res) => {
     }
 });
 
+
+router.patch('/add_snap/:snapId',authUser(PERMISSIONS.MED),async ( req, res) => {
+    try{
+        
+        const snapData = req.body;
+        console.log(snapData)
+        const updatedSnap = await DataSnapshots.updateOne(
+            {_id : req.params.snapId},
+            {$set: { data: snapData} },
+            {safe: true},
+            );
+        res.status(200).json(updatedSnap);
+    }
+    catch(err){
+        res.json({ message: err.message });
+    } 
+});
+
 //add data
 router.patch('/add_data/:snapId', authUser(PERMISSIONS.LOW),async ( req, res) => {
     try{
@@ -122,6 +140,7 @@ router.patch('/remove_data/:snapId', authUser(PERMISSIONS.LOW),async ( req, res)
     try{
         
         const snapData = req.body;
+        console.log(snapData);
         const updatedSnap = await DataSnapshots.updateOne(
             {_id : req.params.snapId},
             {

@@ -41,6 +41,10 @@ const PlacementSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'DataSnapshots'
     },
+    placed_students_snap:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'DataSnapshots'
+    },
     
 });
 
