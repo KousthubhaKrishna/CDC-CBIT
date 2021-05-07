@@ -45,7 +45,6 @@ router.post("/", authUser(PERMISSIONS.MED), async (req, res) => {
         // res.status(201).json(newCompany);
 
         const companyObj = new Company({
-            company_id: req.body.companyId,
             company_name: req.body.company_name,
             description: req.body.description,
             photo_url: req.body.photo_url,
@@ -68,7 +67,7 @@ router.post("/", authUser(PERMISSIONS.MED), async (req, res) => {
 // delete company 
 router.delete('/:companyId', authUser(PERMISSIONS.MED), async (req, res) => {
     try {
-        const company = await Company.deleteOne({ company_id: req.params.companyId });
+        const company = await Company.deleteOne({ _id: req.params.companyId });
         res.json(company);
     }
     catch (err) {
@@ -83,7 +82,6 @@ router.patch('/:companyId', authUser(PERMISSIONS.MED), async (req, res) => {
             { _id: req.params.companyId },
             {
                 $set: {
-                    company_id: req.body.company_id,
                     company_name: req.body.company_name,
                     description: req.body.description,
                     photo_url: req.body.photo_url
