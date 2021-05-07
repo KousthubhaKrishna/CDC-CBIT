@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-        const query = Placements.find(JSON.parse(queryStr)).sort({posted_date:-1});
+        const query = Placements.find(JSON.parse(queryStr)).sort({ posted_date: -1 });
 
         const placements = await query;
         res.status(200).json(placements);
@@ -40,7 +40,7 @@ router.get('/:plcId', async (req, res) => {
 // get list of placements based on company Id
 router.get('/placements/:companyId', async (req, res) => {
     try {
-        const pl = await Placements.find({ company_id: req.params.companyId }).sort({posted_date:-1});
+        const pl = await Placements.find({ company_id: req.params.companyId }).sort({ posted_date: -1 });
         if (pl == null)
             res.status(401).json({ message: "Invalid company id" });
         res.status(200).json(pl);
