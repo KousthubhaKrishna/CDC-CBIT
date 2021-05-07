@@ -12,6 +12,7 @@ router.post('/', (req, res) => {
                 error: 'Technical error occurred'
             });
         } else {
+            console.log("Subscribed");
             res.json({
                 data: 'Subscription saved.'
             });

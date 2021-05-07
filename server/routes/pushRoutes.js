@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
         badge: req.body.badge,
         tag: req.body.tag
     };
-    console.log(payload);
+    // console.log(payload);
     Subscription.find({}, (err, subscriptions) => {
         if (err) {
             console.error(`Error occurred while getting subscriptions`);
@@ -63,8 +63,7 @@ router.post('/', (req, res) => {
                 });
             });
             q.allSettled(parallelSubscriptionCalls).then((pushResults) => {
-                console.info(pushResults);
-                console.info(pushResults.data)
+                // console.info(pushResults.value.data)
             });
             res.json({
                 data: 'Push triggered'
