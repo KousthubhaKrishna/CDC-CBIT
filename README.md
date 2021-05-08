@@ -7,3 +7,11 @@ The project aims to study and provide an automated solution for all the tedious 
 This can be achieved by creating a centralized data-store and further building an end-to-end web application and a cross-platform mobile application. The important features of the application include role-based access control, multiple data retrieving and reporting capabilities, enhanced user experience, and many more.
 
 Such an ideal solution thus reduces the chances of human errors thereby preventing conflicts in schedules and loss of opportunities. And helps the institution to operate with high efficiency and paves the way to implement advanced techniques like Data Analytics and Machine Learning.
+
+### Complete Documentation Can Be Viewed Here
+
+https://cdc-cbit.slite.com/api/s/channel/LAM8knUKSBcQnTNT8bYjRM/CDC%20-%20Documentation)
+
+### Deployed Application URL
+Application: https://cdc-cbit-21.herokuapp.com/
+File Server: https://cdc-file-server.herokuapp.com/files/
