@@ -10,6 +10,7 @@ const Auth = require("../models/Auth");
 const Students = require("../models/Students");
 const Coordinators = require("../models/Coordinators");
 const Token = require("../models/Token")
+const Act = require('../models/Activity');
 
 //all studentAccounts
 router.get("/accounts/:role", authUser(PERMISSIONS.MED), async (req, res) => {
@@ -55,6 +56,13 @@ router.post("/login", async (req, res) => {
         );
         if (!validPass)
             return res.status(401).json({ message: "Incorrect Password" });
+
+        // Start Recording Student Activity if not present
+        const act = await Act.findById(account._id);
+        if (!act) {
+            const newAct = new Act({ _id: account._id, list: [{ text: "Logged in for the first time", actType: "success" }] });
+            const savedAct = await newAct.save();
+        }
 
         // Send JWT Token and Set Cookie
         const maxAge = 3 * 24 * 60 * 60;
@@ -161,6 +169,11 @@ router.patch("/updateStudent", authUser(PERMISSIONS.MED), async (req, res) => {
             placement_batch: req.body.placement_batch,
         };
         const studentObj = await Auth.updateOne({ _id: req.body._id }, { $set: { ...newStudent } });
+
+        const newAct = await Act.updateOne({ _id: req.body._id }, {
+            $push: { list: { text: "Your Profile has been modified by a Coordinator", actType: "info" } }
+        });
+
         res.status(201).json(studentObj);
     } catch (err) {
         // Error : User Already Exists
@@ -171,7 +184,7 @@ router.patch("/updateStudent", authUser(PERMISSIONS.MED), async (req, res) => {
 });
 
 // Add PC Account
-router.patch("/addCoordinator", authUser(PERMISSIONS.HIGH), async (req, res) => {
+router.patch("/updateCoordinator", authUser(PERMISSIONS.HIGH), async (req, res) => {
     console.log("Updating Coordinator");
     try {
         var newCoordinator = {
@@ -184,6 +197,11 @@ router.patch("/addCoordinator", authUser(PERMISSIONS.HIGH), async (req, res) => 
             placement_batch: req.body.placement_batch,
         };
         var coordinatorObj = await Auth.updateOne({ _id: req.body._id }, { $set: { ...newCoordinator } });
+
+        const newAct = await Act.updateOne({ _id: req.body._id }, {
+            $push: { list: { text: "Your Profile has been modified by a Coordinator", actType: "info" } }
+        });
+
         res.status(201).json(coordinatorObj);
     } catch (err) {
         // Error : User Already Exists
@@ -262,13 +280,17 @@ router.post("/forgot_password_reset/", async (req, res) => {
         const obj = await Token.findOne({ user_email: user_email });
 
         if (obj.value == password_token) {
-            const updateAUth = await Auth.updateOne(
+            const updateAuth = await Auth.updateOne(
                 { user_email: user_email },
                 {
                     $set: {
                         password: new_password
                     },
                 });
+
+            const newAct = await Act.updateOne({ _id: updateAuth._id }, {
+                $push: { list: { text: "Your Password was changed.", actType: "success" } }
+            });
             res.status(200).send({ message: "Password change Successful" });
         }
         else {

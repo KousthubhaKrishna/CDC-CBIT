@@ -4,6 +4,7 @@ const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Students = require("../models/Students");
 const Auth = require("../models/Auth");
 const jwt = require("jsonwebtoken");
+const Act = require('../models/Activity');
 
 // get students list
 router.get("/", authUser(PERMISSIONS.MED), async (req, res) => {
@@ -90,6 +91,11 @@ router.post('/', authUser(PERMISSIONS.LOW), async (req, res) => {
         });
 
         const savedStudent = await stObj.save();
+
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "Added Profile Information", actType: "success" } }
+        });
+
         res.status(201).json(savedStudent);
     }
     catch (err) {
@@ -161,6 +167,11 @@ router.patch('/', authUser(PERMISSIONS.LOW), async (req, res) => { //use jwt tok
                     resume_url: req.body.resume_url
                 }
             });
+
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "Updated Profile information", actType: "secondary" } }
+        });
+
         res.json(updatedStudent);
     }
     catch (err) {
@@ -179,7 +190,12 @@ router.patch('/verifyStudents/:stId', authUser(PERMISSIONS.MED), async (req, res
                     is_verified: true,
                 }
             });
-        res.status(200).json({ message: "Student verified" });
+
+        const newAct = await Act.updateOne({ _id: req.params.stId }, {
+            $push: { list: { text: "Your Profile has been verified", actType: "success" } }
+        });
+
+        res.status(200).json({ message: "Student verified", actType: "info" });
     }
     catch (err) {
         res.json({ message: err.message });

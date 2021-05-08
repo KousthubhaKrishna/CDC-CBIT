@@ -3,6 +3,7 @@ const InterviewExperience = require("../models/InterviewExperience");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
+const Act = require('../models/Activity');
 
 
 // get interview experiences
@@ -54,6 +55,10 @@ router.post("/", authUser(PERMISSIONS.LOW), async (req, res) => {
         };
         const expObj = new InterviewExperience(newExp);
         const savedExp = await expObj.save();
+
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "Added an Interview Experience - " + req.body.title, actType: "success" } }
+        });
         res.status(201).json(savedExp);
     } catch (err) {
         res.status(400).send({ message: err.message });
@@ -84,6 +89,11 @@ router.delete('/deleteMyExp/:expId', authUser(PERMISSIONS.LOW), async (req, res)
             return res.status(403).json({ message: "Not Authorised" });
         }
         const exp = await InterviewExperience.deleteOne({ _id: req.params.expId });
+
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "Deleted a Interview Experience", actType: "error" } }
+        });
+
         res.json(exp);
     }
     catch (err) {
@@ -113,6 +123,11 @@ router.patch('/:expId', authUser(PERMISSIONS.LOW), async (req, res) => {
                     date: new Date(req.body.date),
                 }
             });
+
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "Updated an Interview Experience -" + req.body.title, actType: "info" } }
+        });
+
         res.json(updatedExp);
     }
     catch (err) {

@@ -4,6 +4,7 @@ const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Placements = require("../models/Placements");
 const Students = require("../models/Students");
 const DataSnapshots = require("../models/DataSnapshots");
+const Act = require('../models/Activity');
 
 // get placements
 router.get("/", async (req, res) => {
@@ -66,6 +67,14 @@ router.post("/:companyId", authUser(PERMISSIONS.MED), async (req, res) => {
             eligibility: { cgpa: req.body.cgpa, backlogs: req.body.backlogs, branches: req.body.branches },
         });
         const savedPlacement = await plObj.save();
+
+        const token = req.cookies.jwt;
+        var decoded = jwt.decode(token);
+
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "You have deleted a placement", actType: "success" } }
+        });
+
         res.status(201).json(savedPlacement);
     } catch (err) {
         res.json({ message: err.message });
@@ -77,6 +86,14 @@ router.post("/:companyId", authUser(PERMISSIONS.MED), async (req, res) => {
 router.delete('/:placementId', authUser(PERMISSIONS.MED), async (req, res) => {
     try {
         const pl = await Placements.deleteOne({ _id: req.params.placementId });
+
+        const token = req.cookies.jwt;
+        var decoded = jwt.decode(token);
+
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "You have deleted a placement", actType: "error" } }
+        });
+
         res.json(pl);
     }
     catch (err) {

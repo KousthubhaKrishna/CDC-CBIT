@@ -3,6 +3,7 @@ const router = express.Router();
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Placements = require("../models/Placements");
 const Announcements = require("../models/Announcements");
+const Act = require('../models/Activity');
 
 
 // get announcements
@@ -39,6 +40,10 @@ router.get('/:plcId', async (req, res) => {
 // Add placements
 router.post("/:placementId", authUser(PERMISSIONS.MED), async (req, res) => {
     try {
+
+        const token = req.cookies.jwt;
+        var decoded = jwt.decode(token);
+
         const annObj = new Announcements({
             message: req.body.message,
             placement_id: req.params.placementId !== "nil" ? req.params.placementId : null,
@@ -47,6 +52,11 @@ router.post("/:placementId", authUser(PERMISSIONS.MED), async (req, res) => {
             title: req.body.title,
         });
         const savedAnnouncement = await annObj.save();
+
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "You have posted an announcement - " + req.body.title, actType: "success" } }
+        });
+
         res.status(201).json(savedAnnouncement);
     } catch (err) {
         res.json({ message: err.message });
@@ -57,6 +67,14 @@ router.post("/:placementId", authUser(PERMISSIONS.MED), async (req, res) => {
 // delete announcement
 router.delete('/:id', authUser(PERMISSIONS.MED), async (req, res) => {
     try {
+
+        const token = req.cookies.jwt;
+        var decoded = jwt.decode(token);
+
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "You have deleted an announcement - " + req.body.title, actType: "error" } }
+        });
+
         const ann = await Announcements.deleteOne({ _id: req.params.id });
         res.json(ann);
     }

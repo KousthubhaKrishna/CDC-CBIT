@@ -35,6 +35,53 @@
         "responses": {}
       }
     },
+    "/api/accounts/{role}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/deleteAdmin/{userId}": {
+      "delete": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
     "/api/login": {
       "post": {
         "tags": [],
@@ -68,7 +115,19 @@
                   "type": "string",
                   "example": "any"
                 },
-                "password": {
+                "branch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "roll_number": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "section": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
                   "type": "string",
                   "example": "any"
                 }
@@ -107,7 +166,19 @@
                   "type": "string",
                   "example": "any"
                 },
-                "password": {
+                "branch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "roll_number": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "section": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
                   "type": "string",
                   "example": "any"
                 }
@@ -121,6 +192,60 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "branch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "roll_number": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "section": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
           },
           "401": {
             "description": "Unauthorized"
@@ -145,8 +270,59 @@
                 "user_email": {
                   "type": "string",
                   "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/updateStudent": {
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_email": {
+                  "type": "string",
+                  "example": "any"
                 },
-                "password": {
+                "branch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "roll_number": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "section": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "placement_batch": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "_id": {
                   "type": "string",
                   "example": "any"
                 }
@@ -182,6 +358,98 @@
         }
       }
     },
+    "/api/forgot_password/{user_email}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "user_email",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/forgot_password_reset/": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "newPassword": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/password_reset/": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "new_password": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "old_password": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/company/": {
       "get": {
         "tags": [],
@@ -196,7 +464,29 @@
       "post": {
         "tags": [],
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "company_name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "photo_url": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -270,10 +560,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "company_id": {
-                  "type": "string",
-                  "example": "any"
-                },
                 "company_name": {
                   "type": "string",
                   "example": "any"
@@ -282,7 +568,7 @@
                   "type": "string",
                   "example": "any"
                 },
-                "photo_url\r": {
+                "photo_url": {
                   "type": "string",
                   "example": "any"
                 }
@@ -334,13 +620,13 @@
         }
       }
     },
-    "/api/placements/placements/{companyName}": {
+    "/api/placements/placements/{companyId}": {
       "get": {
         "tags": [],
         "description": "",
         "parameters": [
           {
-            "name": "companyName",
+            "name": "companyId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -373,6 +659,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "job_role": {
+                  "type": "string",
+                  "example": "any"
+                },
                 "job_type": {
                   "type": "string",
                   "example": "any"
@@ -406,14 +696,6 @@
                   "example": "any"
                 },
                 "branches": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "ann_date": {
                   "type": "string",
                   "example": "any"
                 }
@@ -464,59 +746,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "job_type": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "job_description": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "package": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "drive_details": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "placement_batch": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "posted_date": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "cgpa": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "backlogs": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "branches": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "ann_date": {
-                  "type": "string",
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -564,6 +793,31 @@
         }
       }
     },
+    "/api/placements/register/{plcId}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "plcId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
     "/api/interviewExperiences/": {
       "get": {
         "tags": [],
@@ -585,15 +839,15 @@
             "schema": {
               "type": "object",
               "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "any"
+                },
                 "company_name": {
                   "type": "string",
                   "example": "any"
                 },
                 "content": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "date": {
                   "type": "string",
                   "example": "any"
                 }
@@ -604,6 +858,9 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -668,6 +925,12 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
             "description": "Unauthorized"
           },
@@ -692,6 +955,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "any"
+                },
                 "company_name": {
                   "type": "string",
                   "example": "any"
@@ -875,7 +1142,7 @@
                   "type": "string",
                   "example": "any"
                 },
-                "resume_url\r": {
+                "resume_url": {
                   "type": "string",
                   "example": "any"
                 }
@@ -894,48 +1161,21 @@
             "description": "Forbidden"
           }
         }
-      }
-    },
-    "/api/students/{Id}": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [
-          {
-            "name": "Id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
       },
       "patch": {
         "tags": [],
         "description": "",
         "parameters": [
           {
-            "name": "Id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "obj",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
+                "is_verified": {
+                  "type": "string",
+                  "example": "any"
+                },
                 "first_name": {
                   "type": "string",
                   "example": "any"
@@ -1044,7 +1284,7 @@
                   "type": "string",
                   "example": "any"
                 },
-                "resume_url\r": {
+                "resume_url": {
                   "type": "string",
                   "example": "any"
                 }
@@ -1053,6 +1293,24 @@
           }
         ],
         "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/students/myProfile": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
           "401": {
             "description": "Unauthorized"
           },
@@ -1180,7 +1438,7 @@
                   "type": "string",
                   "example": "any"
                 },
-                "photo_url\r": {
+                "photo_url": {
                   "type": "string",
                   "example": "any"
                 }
@@ -1236,6 +1494,9 @@
           }
         ],
         "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
             "description": "Unauthorized"
           },
@@ -1374,7 +1635,7 @@
                   "type": "string",
                   "example": "any"
                 },
-                "collect_data": {
+                "isFirst": {
                   "type": "string",
                   "example": "any"
                 }
@@ -1393,6 +1654,357 @@
             "description": "Forbidden"
           }
         }
+      }
+    },
+    "/api/snaps/add_snap/{snapId}": {
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "snapId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/snaps/add_data/{snapId}": {
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "snapId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/snaps/remove_data/{snapId}": {
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "snapId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/snaps/update_data/{snapId}": {
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "snapId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/snaps/snap_data/{plcId}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "plcId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/snaps/download/{snapId}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "snapId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/announcements/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/announcements/{plcId}": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "plcId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/announcements/{placementId}": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "placementId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/announcements/{id}": {
+      "delete": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "patch": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/subscribe/": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/push/": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "url": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "ttl": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "icon": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "badge": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "tag": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {}
       }
     }
   },

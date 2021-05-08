@@ -34,7 +34,7 @@ app.use((err, req, res, next) => {
 });
 app.use(json2xls.middleware);
 
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 // Routes
 app.get("/api", (req, res) => {
@@ -71,6 +71,8 @@ app.use("/api/snaps", require("./routes/snapRoutes"));
 
 //Announcements Routes
 app.use("/api/announcements", require("./routes/announcementRoutes"));
+
+app.use("/api/activity", require("./routes/activityRoutes"));
 
 app.use('/api/subscribe/', require("./routes/subscribeRoutes"));
 

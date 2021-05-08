@@ -4,6 +4,7 @@ const Placements = require("../models/Placements");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
+const Act = require('../models/Activity');
 
 
 // Get Data Snapshots
@@ -82,6 +83,9 @@ router.post('/:placementId', authUser(PERMISSIONS.MED), async (req, res) => {
                 });
         }
 
+        const newAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "Created a data snapshot - " + req.body.snap_name, actType: "success" } }
+        });
 
         res.status(201).json(savedSnap);
     }
@@ -107,7 +111,6 @@ router.patch('/add_snap/:snapId', authUser(PERMISSIONS.MED), async (req, res) =>
     try {
 
         const snapData = req.body;
-        console.log(snapData)
         const updatedSnap = await DataSnapshots.updateOne(
             { _id: req.params.snapId },
             { $set: { data: snapData } },
@@ -130,6 +133,13 @@ router.patch('/add_data/:snapId', authUser(PERMISSIONS.LOW), async (req, res) =>
             { $push: { data: snapData } },
             { safe: true },
         );
+
+        const snap = await DataSnapshots.findById(req.params.snapId);
+        const pl = await Placements.findById(snap.placement_id);
+        const newAct = await Act.updateOne({ _id: snapData._id }, {
+            $push: { list: { text: "You have registered for " + pl.company_id.company_name, actType: "success" } }
+        });
+
         res.status(200).json(updatedSnap);
     }
     catch (err) {
