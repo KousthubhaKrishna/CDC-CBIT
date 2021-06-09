@@ -4,6 +4,7 @@ const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Placements = require("../models/Placements");
 const Announcements = require("../models/Announcements");
 const Act = require('../models/Activity');
+const jwt = require("jsonwebtoken");
 
 
 // get announcements
@@ -57,6 +58,7 @@ router.post("/:placementId", authUser(PERMISSIONS.MED), async (req, res) => {
             $push: { list: { text: "You have posted an announcement - " + req.body.title, actType: "success" } }
         });
 
+        console.log("Announcement Saved");
         res.status(201).json(savedAnnouncement);
     } catch (err) {
         res.json({ message: err.message });

@@ -5,6 +5,7 @@ const Placements = require("../models/Placements");
 const Students = require("../models/Students");
 const DataSnapshots = require("../models/DataSnapshots");
 const Act = require('../models/Activity');
+const jwt = require("jsonwebtoken");
 
 // get placements
 router.get("/", async (req, res) => {

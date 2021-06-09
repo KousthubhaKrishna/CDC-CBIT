@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Company = require("../models/Company");
+const jwt = require("jsonwebtoken");
 
 
 // get company list
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-        const query = Company.find(JSON.parse(queryStr)).sort({company_name:1});
+        const query = Company.find(JSON.parse(queryStr)).sort({ company_name: 1 });
 
         const companies = await query;
         res.status(200).json(companies);

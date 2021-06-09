@@ -195,6 +195,13 @@ router.patch('/verifyStudents/:stId', authUser(PERMISSIONS.MED), async (req, res
             $push: { list: { text: "Your Profile has been verified", actType: "success" } }
         });
 
+        const token = req.cookies.jwt;
+        var decoded = jwt.decode(token);
+
+        const anotherAct = await Act.updateOne({ _id: decoded._id }, {
+            $push: { list: { text: "You verified a student", actType: "info" } }
+        });
+
         res.status(200).json({ message: "Student verified", actType: "info" });
     }
     catch (err) {

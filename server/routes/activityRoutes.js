@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { PERMISSIONS, authUser } = require("../middleware/Auth");
 const Act = require('../models/Activity');
+const jwt = require("jsonwebtoken");
 
 
 // get announcements
