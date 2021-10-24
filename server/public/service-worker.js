@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.42bd3926a06741f7dd5ba4f61e0925ed.js"
+  "/precache-manifest.65b17f0a73241817e4623544d91d5bb1.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "Materialpro"});
